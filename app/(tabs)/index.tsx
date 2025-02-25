@@ -1,13 +1,11 @@
-import { Image, StyleSheet, Animated, View, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useEffect, useRef } from 'react';
+import React from "react";
+import { SafeAreaView } from "react-native";
+import ChatGame from "../src/screens/ChatGame";
 
-export default function SplashScreen(){
+export default function App() {
   return (
-    <View>
-     <Text>SplashScreen</Text>
-    </View>
+    <SafeAreaView>
+      <ChatGame />
+    </SafeAreaView>
   );
 }
-
- 
