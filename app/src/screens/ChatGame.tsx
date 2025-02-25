@@ -18,7 +18,10 @@ const ChatGame = () => {
 
   const fetchQuestion = async (category: string) => {
       try {
-        const response = await fetch(`https://your-vercel-app.vercel.app/api/question?category=${category}`);
+        const response = await fetch(`https://your-vercel-app.vercel.app/api/questions?category=${category}`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
         const data = await response.json();
         setQuestion(data.question);
         setInput(data.question);
