@@ -8,14 +8,18 @@ import {
   ImageBackground,
 } from "react-native";
 
+const categories = ["flirty", "emotional", "fun", "spicy"];
+
 const ChatGame = () => {
   const [question, setQuestion] = useState("");
   const [input, setInput] = useState("");
+  const [currentCategory, setCurrentCategory] = useState("spicy");
+  const [shuffleCount, setShuffleCount] = useState(0);
 
-  const fetchQuestion = async () => {
+  const fetchQuestion = async (selectedCategory: string) => {
     try {
       const response = await fetch(
-        "http://192.168.199.210:5000/question?category=fun"
+        `http://192.168.199.210:5000/question?category=${selectedCategory}`
       );
       const data = await response.json();
       setQuestion(data.question);
@@ -24,6 +28,18 @@ const ChatGame = () => {
       console.error("Error fetching question:", error);
     }
   };
+  const handleShuffle = () => {
+    if (shuffleCount >= 2) {
+      // Change category after 3 presses
+      const newCategory =
+        categories[Math.floor(Math.random() * categories.length)];
+      setCurrentCategory(newCategory);
+      setShuffleCount(0); // Reset counter
+    } else {
+      setShuffleCount(shuffleCount + 1);
+    }
+    fetchQuestion(currentCategory);
+  };
 
   return (
     <ImageBackground
@@ -31,10 +47,20 @@ const ChatGame = () => {
       style={styles.background}
     >
       <View style={styles.container}>
+        <Button
+          title="Play a Game"
+          color="#FF5733"
+          onPress={() => fetchQuestion("spicy")}
+        />
+
         <Text style={styles.label}>Chat Message:</Text>
         <TextInput style={styles.input} value={input} onChangeText={setInput} />
-        <Button title="Play a Game" onPress={fetchQuestion} />
-        <Button title="Shuffle Question" onPress={fetchQuestion} />
+
+        <Button
+          title="Shuffle Question"
+          color="#3498DB"
+          onPress={handleShuffle}
+        />
       </View>
     </ImageBackground>
   );
