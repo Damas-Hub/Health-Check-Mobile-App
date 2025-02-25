@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  ImageBackground,
+} from "react-native";
 
 const ChatGame = () => {
   const [question, setQuestion] = useState("");
@@ -19,16 +26,25 @@ const ChatGame = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Chat Message:</Text>
-      <TextInput style={styles.input} value={input} onChangeText={setInput} />
-      <Button title="Play a Game" onPress={fetchQuestion} />
-      <Button title="Shuffle Question" onPress={fetchQuestion} />
-    </View>
+    <ImageBackground
+      source={require("../assets/images/background.jpg")}
+      style={styles.background}
+    >
+      <View style={styles.container}>
+        <Text style={styles.label}>Chat Message:</Text>
+        <TextInput style={styles.input} value={input} onChangeText={setInput} />
+        <Button title="Play a Game" onPress={fetchQuestion} />
+        <Button title="Shuffle Question" onPress={fetchQuestion} />
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    height: "100%",
+    resizeMode: "cover",
+  },
   container: { padding: 20 },
   label: { fontSize: 18, marginBottom: 10 },
   input: {
