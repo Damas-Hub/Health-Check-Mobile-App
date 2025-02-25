@@ -7,10 +7,12 @@ const ChatGame = () => {
 
   const fetchQuestion = async () => {
     try {
-      const response = await fetch("http://192.168.199.210:5000/question?category=fun");
+      const response = await fetch(
+        "http://192.168.199.210:5000/question?category=fun"
+      );
       const data = await response.json();
       setQuestion(data.question);
-      setInput(data.question); // Insert into input field
+      setInput(data.question);
     } catch (error) {
       console.error("Error fetching question:", error);
     }
@@ -18,12 +20,8 @@ const ChatGame = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Chat Input:</Text>
-      <TextInput 
-        style={styles.input} 
-        value={input} 
-        onChangeText={setInput} 
-      />
+      <Text style={styles.label}>Chat Message:</Text>
+      <TextInput style={styles.input} value={input} onChangeText={setInput} />
       <Button title="Play a Game" onPress={fetchQuestion} />
       <Button title="Shuffle Question" onPress={fetchQuestion} />
     </View>
