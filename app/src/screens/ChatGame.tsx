@@ -16,18 +16,17 @@ const ChatGame = () => {
   const [currentCategory, setCurrentCategory] = useState("spicy");
   const [shuffleCount, setShuffleCount] = useState(0);
 
-  const fetchQuestion = async (selectedCategory: string) => {
-    try {
-      const response = await fetch(
-        `http://192.168.199.210:5000/question?category=${selectedCategory}`
-      );
-      const data = await response.json();
-      setQuestion(data.question);
-      setInput(data.question);
-    } catch (error) {
-      console.error("Error fetching question:", error);
-    }
-  };
+  const fetchQuestion = async (category: string) => {
+      try {
+        const response = await fetch(`https://your-vercel-app.vercel.app/api/question?category=${category}`);
+        const data = await response.json();
+        setQuestion(data.question);
+        setInput(data.question);
+      } catch (error) {
+        console.error("Error fetching question:", error);
+      }
+    };
+  
   const handleShuffle = () => {
     if (shuffleCount >= 2) {
       // Change category after 3 presses
