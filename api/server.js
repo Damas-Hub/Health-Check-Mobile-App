@@ -59,29 +59,43 @@ const questions = {
   ],
 };
 
-app.get("/question", (req, res) => {
+const usedQuestions = {
+    flirty: new Set(),
+    emotional: new Set(),
+    fun: new Set(),
+    spicy: new Set(),
+  };
+  
+  app.get("/question", (req, res) => {
     const category = req.query.category || "spicy";
     const categoryQuestions = questions[category] || questions.spicy;
   
-    let availableQuestions = categoryQuestions.filter(q => !usedQuestions.has(q));
+    // Filter out used questions
+    const availableQuestions = categoryQuestions.filter(
+      (q) => !usedQuestions[category].has(q)
+    );
   
+    // If all questions have been used, reset
     if (availableQuestions.length === 0) {
-      usedQuestions.clear(); // Reset if all are used
-      availableQuestions = categoryQuestions;
+      usedQuestions[category].clear();
     }
   
-    const randomQuestion = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
+    // Pick a new random question
+    const randomQuestion =
+      availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
   
-    usedQuestions.add(randomQuestion);
+    // Store the used question
+    usedQuestions[category].add(randomQuestion);
+  
     res.json({ question: randomQuestion });
   });
   
-const PORT = 5000;
-
-app.get("/", (req, res) => {
-  res.send("Welcome to the Chat Questions");
-});
-
-app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
-);
+  const PORT = 5000;
+  
+  app.get("/", (req, res) => {
+    res.send("Welcome to the Chat Questions API");
+  });
+  
+  app.listen(PORT, () =>
+    console.log(`Server running on http://localhost:${PORT}`)
+  );
